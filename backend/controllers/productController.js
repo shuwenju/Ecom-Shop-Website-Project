@@ -1,10 +1,18 @@
 import AsyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
 //@desc fetch all products
-//@route GET/api/products
+//@route GET/api/products?....
 //@access Public route
 const getProducts = AsyncHandler(async (req, res) => {
-  const products = await Product.find({})
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i', // case insensitive
+        },
+      }
+    : {}
+  const products = await Product.find({ ...keyword })
   res.json(products)
 })
 

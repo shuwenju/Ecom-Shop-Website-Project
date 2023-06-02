@@ -29,6 +29,9 @@ const App = () => {
             <Route path='/' element={<HomeScreen />} />
           </Routes>
           <Routes>
+            <Route path='/search/:keyword' element={<HomeScreen />} />
+          </Routes>
+          <Routes>
             <Route path='/product/:id' element={<ProductScreen />} />
           </Routes>
           <Routes>

@@ -5,12 +5,14 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
+import { useParams } from 'react-router-dom'
 // we got rid of component state of products and fetching products using axios get api
 //instead we import useDispatch and useSelector:
 // So that'll be used to dispatch or call in action
 // useSelecter, which is used to select parts of the state.
 
 const HomeScreen = () => {
+  const { keyword } = useParams()
   const dispatch = useDispatch()
 
   //here what you are getting is whatever from the store, which is productList
@@ -18,8 +20,8 @@ const HomeScreen = () => {
   const { loading, error, products } = productList
 
   useEffect(() => {
-    dispatch(listProducts())
-  }, [dispatch])
+    dispatch(listProducts(keyword))
+  }, [dispatch, keyword])
 
   return (
     <>
