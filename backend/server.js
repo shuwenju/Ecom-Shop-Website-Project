@@ -41,11 +41,6 @@ app.use(express.json())
 //   next() // you always have call next() to get to the next middleware, now you call api on postman, you get hellow showing in console.
 // })
 
-//create a route
-app.get('/', (req, res) => {
-  res.send('API is running')
-})
-
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
@@ -57,6 +52,18 @@ app.get('/api/config/paypal', (req, res) =>
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+//prepare for deployment
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
+  app.get('*', (req, res) =>
+    res.sendFile(path.resulve(__dirname, 'frontend', 'build', 'index.html'))
+  ) //anything that is not api routes
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running')
+  })
+}
 
 //we also want a fallback for 404 errors: anything thats not found:
 app.use(notFound)

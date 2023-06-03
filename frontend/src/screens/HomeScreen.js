@@ -6,8 +6,9 @@ import ProductCarousel from '../components/ProductCarousel'
 import Loader from '../components/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Paginate from '../components/Paginate'
+import Meta from '../components/Meta'
 // we got rid of component state of products and fetching products using axios get api
 //instead we import useDispatch and useSelector:
 // So that'll be used to dispatch or call in action
@@ -28,7 +29,14 @@ const HomeScreen = () => {
 
   return (
     <>
-      {!keyword && <ProductCarousel />}
+      <Meta />
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to='/' className='btn btn-light'>
+          Go Back
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader>Loading...</Loader>

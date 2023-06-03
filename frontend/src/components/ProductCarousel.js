@@ -28,7 +28,7 @@ const ProductCarousel = () => {
             {/* fluid attributes make it stays in the container */}
             <Carousel.Caption className='carousel-caption'>
               <h2 style={{ color: '#d68850' }}>
-                {product.name} ({product.price})
+                {product.name} (${product.price})
               </h2>
             </Carousel.Caption>
           </Link>
