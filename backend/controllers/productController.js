@@ -4,6 +4,8 @@ import Product from '../models/productModel.js'
 //@route GET/api/products?....
 //@access Public route
 const getProducts = AsyncHandler(async (req, res) => {
+  const pageSize = 6 // 10 per page
+  const page = Number(req.query.pageNumber) || 1
   const keyword = req.query.keyword
     ? {
         name: {
@@ -12,8 +14,11 @@ const getProducts = AsyncHandler(async (req, res) => {
         },
       }
     : {}
+  const count = await Product.countDocuments({ ...keyword })
   const products = await Product.find({ ...keyword })
-  res.json(products)
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+  res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
 
 //@desc fetch single products
@@ -126,6 +131,14 @@ const createProductReview = AsyncHandler(async (req, res) => {
   }
 })
 
+//@desc get top rated products
+//@route POST/api/products/top
+//@access Public
+const getTopProducts = AsyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3) // sort by descending order
+  res.json(products)
+})
+
 export {
   getProducts,
   getProductById,
@@ -133,4 +146,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 }

@@ -29,6 +29,15 @@ const App = () => {
             <Route path='/' element={<HomeScreen />} />
           </Routes>
           <Routes>
+            <Route path='/page/:pageNumber' element={<HomeScreen />} />
+          </Routes>
+          <Routes>
+            <Route
+              path='/search/:keyword/page/:pageNumber'
+              element={<HomeScreen />}
+            />
+          </Routes>
+          <Routes>
             <Route path='/search/:keyword' element={<HomeScreen />} />
           </Routes>
           <Routes>
@@ -55,6 +64,12 @@ const App = () => {
           </Routes>
           <Routes>
             <Route path='/admin/productList' element={<ProductListScreen />} />
+          </Routes>
+          <Routes>
+            <Route
+              path='/admin/productList/:pageNumber'
+              element={<ProductListScreen />}
+            />
           </Routes>
           <Routes>
             <Route path='/admin/user/:id/edit' element={<UserEditScreen />} />
